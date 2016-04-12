@@ -33,3 +33,6 @@
 Бинарные файлы помещаются в папку **projects/[имя-проекта]/build**
 
 ![Builder.py](/img/Builder.png)
+
+
+Скрипты написаны на Python 3 и PyQt4. Установщик можно взять здесь [Anaconda](https://store.continuum.io/cshop/anaconda/)
