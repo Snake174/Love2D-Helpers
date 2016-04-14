@@ -9,7 +9,8 @@ function Button:new(o)
   t.imgH = nil
   t.data = {}
   t.isHover = false
-  t.triggerFlag = false
+  t.triggerInOut = false
+  t.triggerClick = false
 
   if o.pos ~= nil then
     t.pos = o.pos
@@ -67,11 +68,27 @@ function Button:update( dt )
     self.isHover = false
   end
 
-  if self.isHover and not self.triggerFlag then
-    self.triggerFlag = true
+  if self.isHover and not self.triggerClick and Input.mouseDown(1) then
+    self.triggerClick = true
+
+    if self.callbacks["click"] then
+      (self.callbacks["click"])()
+    end
+  elseif self.isHover and self.triggerClick and Input.mouseUp(1) then
+    self.triggerClick = false
+  end
+
+  if self.isHover and not self.triggerInOut then
+    self.triggerInOut = true
 
     if self.callbacks["mousein"] then
       (self.callbacks["mousein"])()
+    end
+  elseif not self.isHover and self.triggerInOut then
+    self.triggerInOut = false
+
+    if self.callbacks["mouseout"] then
+      (self.callbacks["mouseout"])()
     end
   end
 end

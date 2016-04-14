@@ -38,11 +38,33 @@ function love.load()
 
   inftab06:slide( 0, 0, 2.0, "backout" )
 
+  str = "Button test"
+  i = 0
+
   btn = Button:new( {
     pos = Vector( 200, 400 ),
     img = "data/osmotr_ok.png",
     imgH = "data/osmotr_ok_hover.png"
   } )
+
+  btn:mouseIn(
+    function()
+      str = "MOUSE IN"
+    end
+  )
+
+  btn:mouseOut(
+    function()
+      str = "MOUSE OUT"
+    end
+  )
+
+  btn:click(
+    function()
+      i = i + 1
+      str = "CLICKED " .. tostring(i)
+    end
+  )
 end
 
 function love.run()
@@ -101,6 +123,8 @@ function love.run()
                       )
 
     btn:draw()
+
+    love.graphics.print( str, 200, 370 )
 
     if Input.keyHeld("p") then
       love.graphics.print( "P is holded", 100, 100 )
