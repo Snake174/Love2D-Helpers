@@ -48,9 +48,9 @@ function Animation:update( dt )
   end
 end
 
-function Animation:add( name, frames, row, t )
+function Animation:add( name, cols, row, t )
   if self.grid then
-    self.anims[ name ] = Anim.newAnimation( self.grid( frames, row ), t )
+    self.anims[ name ] = Anim.newAnimation( self.grid( cols, row ), t )
     self:change( name )
   end
 end

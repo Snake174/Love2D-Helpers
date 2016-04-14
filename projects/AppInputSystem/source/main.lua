@@ -1,6 +1,8 @@
 require "app"
 
 function love.load()
+  Cursor.useSystem( true )
+
   -- изображение
   mac = love.graphics.newImage("data/mac.png")
 
@@ -98,6 +100,7 @@ function love.run()
     local dt = love.timer.getDelta()
     Timer.update( dt )
     Flux.update( dt )
+    Cursor.update( dt )
 
     -- update
     if Input.keyDown("escape") then
@@ -140,6 +143,8 @@ function love.run()
     Input.reset()
 
     inftab06:draw()
+
+    Cursor.draw()
 
     love.graphics.present()
 
