@@ -25,7 +25,7 @@ function Button:new(o)
     local data = t.img:getData()
     data:mapPixel(
       function( x, y, r, g, b, a )
-        if a == 255 then
+        if a > 0 then
           t.data[ tostring(x) .. "-" .. tostring(y) ] = true
         end
 
