@@ -44,7 +44,8 @@ function love.load()
   btn = Button:new( {
     pos = Vector( 200, 400 ),
     img = "data/osmotr_ok.png",
-    imgH = "data/osmotr_ok_hover.png"
+    imgH = "data/osmotr_ok_hover.png",
+    alpha = false
   } )
 
   btn:mouseIn(

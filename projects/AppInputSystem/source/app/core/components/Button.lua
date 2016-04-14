@@ -5,10 +5,12 @@ function Button:new(o)
   local t = {}
   t.callbacks = {}
   t.pos = Vector( 0, 0 )
+  t.size = Vector( 0, 0 )
   t.img = nil
   t.imgH = nil
   t.data = {}
   t.isHover = false
+  t.isAlpha = false
   t.triggerInOut = false
   t.triggerClick = false
 
@@ -16,12 +18,13 @@ function Button:new(o)
     t.pos = o.pos
   end
 
-  if o.size then
-    t.size = o.size
+  if o.alpha then
+    t.isAlpha = o.alpha
   end
 
   if o.img then
     t.img = love.graphics.newImage( o.img )
+    t.size = Vector( t.img:getWidth(), t.img:getHeight() )
     local data = t.img:getData()
     data:mapPixel(
       function( x, y, r, g, b, a )
@@ -57,10 +60,18 @@ end
 function Button:update( dt )
   local mx, my = Input.mousePos().x - self.pos.x, Input.mousePos().y - self.pos.y
 
-  if self.data[ tostring( mx ) .. "-" .. tostring( my ) ] then
-    self.isHover = true
+  if self.isAlpha then
+    if self.data[ tostring( mx ) .. "-" .. tostring( my ) ] then
+      self.isHover = true
+    else
+      self.isHover = false
+    end
   else
-    self.isHover = false
+    if mx > 0 and mx < self.size.x and my > 0 and my < self.size.y then
+      self.isHover = true
+    else
+      self.isHover = false
+    end
   end
 
   if self.isHover and not self.triggerInOut then
@@ -88,6 +99,10 @@ function Button:update( dt )
   if Input.mouseUp(1) then
     self.triggerClick = false
   end
+end
+
+function Button:setAlpha(a)
+  self.isAlpha = a
 end
 
 function Button:click(f)
