@@ -115,9 +115,19 @@ end
 
 function App.toggleFullScreen()
   if love.window.getFullscreen() == false then
-		love.window.setFullscreen( true, "desktop" )
+		love.window.setFullscreen( true, "exclusive" )
 	else
-		love.window.setFullscreen( false )
+    love.window.setMode(
+      App.WIDTH,
+      App.HEIGHT,
+      {
+        fullscreen = false,
+        fullscreentype = "exclusive",
+        resizable = false,
+        vsync = true,
+        centered = true
+      }
+    )
 	end
 end
 

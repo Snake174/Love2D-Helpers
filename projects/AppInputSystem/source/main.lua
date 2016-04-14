@@ -67,6 +67,10 @@ function love.run()
       App.close()
     end
 
+    if Input.keyDown("f") then
+      App.toggleFullScreen()
+    end
+
     local mousePos = Input.mousePos()
 	  local dir = pos - mousePos
 
