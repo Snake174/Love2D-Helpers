@@ -12,15 +12,15 @@ function Button:new(o)
   t.triggerInOut = false
   t.triggerClick = false
 
-  if o.pos ~= nil then
+  if o.pos then
     t.pos = o.pos
   end
 
-  if o.size ~= nil then
+  if o.size then
     t.size = o.size
   end
 
-  if o.img ~= nil then
+  if o.img then
     t.img = love.graphics.newImage( o.img )
     local data = t.img:getData()
     data:mapPixel(
@@ -35,7 +35,7 @@ function Button:new(o)
     data = nil
   end
 
-  if o.imgH ~= nil then
+  if o.imgH then
     t.imgH = love.graphics.newImage( o.imgH )
   end
 
@@ -49,14 +49,9 @@ function Button:draw()
     img = self.imgH
   end
 
-  love.graphics.draw(
-    img,
-    self.pos.x,
-    self.pos.y,
-    0,
-    1,
-    1
-  )
+  if img then
+    love.graphics.draw( img, self.pos.x, self.pos.y )
+  end
 end
 
 function Button:update( dt )
