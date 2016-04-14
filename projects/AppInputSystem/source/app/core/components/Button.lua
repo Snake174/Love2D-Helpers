@@ -85,7 +85,7 @@ function Button:update( dt )
     end
   end
 
-  if self.triggerClick and Input.mouseUp(1) then
+  if Input.mouseUp(1) then
     self.triggerClick = false
   end
 end
