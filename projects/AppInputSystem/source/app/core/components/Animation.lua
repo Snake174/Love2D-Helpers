@@ -5,6 +5,7 @@ function Animation:new(o)
   local o = o or {}
   local t = {}
   t.pos = Vector( 0, 0 )
+  t.size = Vector( 0, 0 )
   t.img = nil
   t.grid = nil
   t.anims = {}
@@ -27,7 +28,9 @@ function Animation:new(o)
       cols = o.cols
     end
 
-    t.grid = Anim.newGrid( w / cols, h / rows, w, h )
+    local sx, sy = w / cols, h / rows
+    t.size = Vector( sx, sy )
+    t.grid = Anim.newGrid( sx, sy, w, h )
   end
 
   return setmetatable( t, { __index = self } )
