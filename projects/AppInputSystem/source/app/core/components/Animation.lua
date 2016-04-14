@@ -35,7 +35,7 @@ end
 
 function Animation:draw()
   if self.anim then
-    self.anim:draw( self.img, self.pos.x,	self.pos.y )
+    self.anim:draw( self.img, self.pos.x, self.pos.y )
   end
 end
 
@@ -48,6 +48,7 @@ end
 function Animation:add( name, frames, row, t )
   if self.grid then
     self.anims[ name ] = Anim.newAnimation( self.grid( frames, row ), t )
+    self:change( name )
   end
 end
 

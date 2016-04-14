@@ -25,18 +25,18 @@ function love.load()
   inftab06:onOkClick(
     "dialog1",
     function()
-      inftab06:slide( 0, -107, 2.0, "backout" )
+      inftab06:slide( 0, -107, 1.0, "backout" )
     end
   )
 
 	inftab06:onOkClick(
     "dialog2",
     function()
-      inftab06:slide( 0, -107, 2.0, "backout" )
+      inftab06:slide( 0, -107, 1.0, "backout" )
     end
   )
 
-  inftab06:slide( 0, 0, 2.0, "backout" )
+  inftab06:slide( 0, 0, 1.0, "backout" )
 
   str = "Button test"
   i = 0
@@ -73,7 +73,6 @@ function love.load()
     cols = 10
   } )
   anim:add( "iddle", "1-10", 1, 0.1 )
-  anim:change("iddle")
 end
 
 function love.run()
@@ -136,10 +135,6 @@ function love.run()
     anim:draw()
 
     love.graphics.print( str, 200, 370 )
-
-    if Input.keyHeld("p") then
-      love.graphics.print( "P is holded", 100, 100 )
-    end
 
     Input.reset()
 
