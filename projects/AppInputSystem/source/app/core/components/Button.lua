@@ -74,7 +74,9 @@ function Button:update( dt )
     if self.callbacks["click"] then
       (self.callbacks["click"])()
     end
-  elseif self.isHover and self.triggerClick and Input.mouseUp(1) then
+  end
+
+  if self.triggerClick and Input.mouseUp(1) then
     self.triggerClick = false
   end
 
