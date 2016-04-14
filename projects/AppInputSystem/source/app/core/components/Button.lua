@@ -1,10 +1,10 @@
 local Button = {}
 
 function Button:new(o)
+  local o = o or {}
   local t = {}
   t.callbacks = {}
   t.pos = Vector( 0, 0 )
-  t.size = Vector( 0, 0 )
   t.img = nil
   t.imgH = nil
   t.data = {}
@@ -68,18 +68,6 @@ function Button:update( dt )
     self.isHover = false
   end
 
-  if self.isHover and not self.triggerClick and Input.mouseDown(1) then
-    self.triggerClick = true
-
-    if self.callbacks["click"] then
-      (self.callbacks["click"])()
-    end
-  end
-
-  if self.triggerClick and Input.mouseUp(1) then
-    self.triggerClick = false
-  end
-
   if self.isHover and not self.triggerInOut then
     self.triggerInOut = true
 
@@ -92,6 +80,18 @@ function Button:update( dt )
     if self.callbacks["mouseout"] then
       (self.callbacks["mouseout"])()
     end
+  end
+
+  if self.isHover and not self.triggerClick and Input.mouseDown(1) then
+    self.triggerClick = true
+
+    if self.callbacks["click"] then
+      (self.callbacks["click"])()
+    end
+  end
+
+  if self.triggerClick and Input.mouseUp(1) then
+    self.triggerClick = false
   end
 end
 
