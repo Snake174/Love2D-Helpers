@@ -65,6 +65,15 @@ function love.load()
       str = "CLICKED " .. tostring(i)
     end
   )
+
+  anim = Animation:new( {
+    pos = Vector( 400, 400 ),
+    img = "data/coin-sprite-animation-sprite-sheet.png",
+    rows = 1,
+    cols = 10
+  } )
+  anim:add( "iddle", "1-10", 1, 0.1 )
+  anim:change("iddle")
 end
 
 function love.run()
@@ -107,6 +116,7 @@ function love.run()
     inftab06:update( dt )
 
     btn:update( dt )
+    anim:update( dt )
 
     love.graphics.clear()
     love.graphics.origin()
@@ -123,6 +133,7 @@ function love.run()
                       )
 
     btn:draw()
+    anim:draw()
 
     love.graphics.print( str, 200, 370 )
 
