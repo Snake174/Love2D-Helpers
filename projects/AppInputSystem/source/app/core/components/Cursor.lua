@@ -35,6 +35,7 @@ end
 function Cursor.update( dt )
   if not Cursor.isSystem and Cursor.cursor then
     Cursor.cursor:update( dt )
+    Cursor.cursor.pos = Input.mousePos() - Vector( 8, 8 )
   end
 end
 

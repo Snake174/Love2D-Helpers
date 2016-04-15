@@ -1,7 +1,19 @@
 require "app"
 
 function love.load()
-  Cursor.useSystem( true )
+  Cursor.useSystem( false )
+  --cursor = love.mouse.newCursor( "data/blank.png", 8, 8 )
+  --love.mouse.setCursor( cursor )
+
+  cr = Animation:new( {
+    pos = Vector( 400, 400 ),
+    img = "data/cursors.png",
+    rows = 6,
+    cols = 8
+  } )
+  cr:add( "pointer", "1-8", 2, 0.1 )
+
+  Cursor.add( "pointer", cr )
 
   -- изображение
   mac = love.graphics.newImage("data/mac.png")
@@ -76,6 +88,22 @@ function love.load()
     cols = 10
   } )
   anim:add( "iddle", "1-10", 1, 0.1 )
+
+  hero = Animation:new( {
+    pos = Vector( 500, 400 ),
+    img = "data/T_Vlad_Sword_Walking_48x48.png",
+    rows = 8,
+    cols = 8
+  } )
+  hero:add( "right", "1-8", 1, 0.1 )
+  hero:add( "up", "1-8", 2, 0.1 )
+  hero:add( "up-right", "1-8", 3, 0.1 )
+  hero:add( "up-left", "1-8", 4, 0.1 )
+  hero:add( "down", "1-8", 5, 0.1 )
+  hero:add( "down-right", "1-8", 6, 0.1 )
+  hero:add( "down-left", "1-8", 7, 0.1 )
+  hero:add( "left", "1-8", 8, 0.1 )
+  heroWalk = false
 end
 
 function love.run()
@@ -95,12 +123,14 @@ function love.run()
     return
   end
 
+  love.keyboard.setKeyRepeat( false )
+
   while App.run() do
     love.timer.step()
     local dt = love.timer.getDelta()
+    Cursor.update( dt )
     Timer.update( dt )
     Flux.update( dt )
-    Cursor.update( dt )
 
     -- update
     if Input.keyDown("escape") then
@@ -109,6 +139,18 @@ function love.run()
 
     if Input.keyDown("f") then
       App.toggleFullScreen()
+    end
+
+    if Input.keyHeld("w") then
+      if Input.keyHeld("a") then
+        hero:change("up-left")
+      elseif Input.keyHeld("d") then
+        hero:change("up-right")
+      else
+        hero:change("up")
+      end
+
+      heroWalk = true
     end
 
     local mousePos = Input.mousePos()
@@ -120,6 +162,13 @@ function love.run()
 
     btn:update( dt )
     anim:update( dt )
+    hero:update( dt )
+
+    if heroWalk then
+      hero:resume()
+    else
+      hero:pause()
+    end
 
     love.graphics.clear()
     love.graphics.origin()
@@ -137,17 +186,15 @@ function love.run()
 
     btn:draw()
     anim:draw()
+    hero:draw()
 
     love.graphics.print( str, 200, 370 )
-
-    Input.reset()
 
     inftab06:draw()
 
     Cursor.draw()
-
     love.graphics.present()
-
+    Input.reset()
     love.timer.sleep( 0.001 )
 	end
 end
