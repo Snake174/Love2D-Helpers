@@ -5,9 +5,10 @@ from enum import Enum
 from PyQt4.QtGui import (
   QApplication, QWidget, QListWidget, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog,
   QGraphicsView, QGraphicsScene, QPainter, QGraphicsSceneMouseEvent, QBrush, QColor, QPixmap, QPen, QMainWindow,
-  QDockWidget, QGroupBox, QVBoxLayout, QHBoxLayout, QSpinBox, QAbstractSpinBox, QStyleFactory, QStyle, QDialog
+  QDockWidget, QGroupBox, QVBoxLayout, QHBoxLayout, QSpinBox, QAbstractSpinBox, QStyleFactory, QStyle, QDialog,
+  QStackedWidget, QPlainTextEdit, QFont
 )
-from PyQt4.QtCore import Qt, QDir, QRectF, QPointF, QLineF, QSize, pyqtSignal, pyqtSlot
+from PyQt4.QtCore import Qt, QDir, QFileInfo, QRectF, QPointF, QLineF, QSize, pyqtSignal, pyqtSlot
 
 class Mode( Enum ):
   NONE = 0
@@ -146,8 +147,28 @@ class MainWindow( QMainWindow ):
   def __init__( self, parent = None ):
     QMainWindow.__init__( self, parent )
 
-    self.view = AnimationEditor( self )
+    self.animName = ''
+
+    self.stack = QStackedWidget( self )
+
+    self.view = AnimationEditor( self.stack )
     self.view.animDone.connect( self.animDone )
+
+    self.code = QWidget( self.stack )
+
+    self.codeText = QPlainTextEdit( self.code )
+    self.codeText.setFont( QFont( 'Lucida Console', 12 ) )
+
+    self.backToImage = QPushButton( 'Back', self.code )
+    self.backToImage.clicked.connect( self.goBack )
+
+    self.vlCode = QVBoxLayout( self.code )
+    self.vlCode.addWidget( self.codeText )
+    self.vlCode.addWidget( self.backToImage )
+
+    self.stack.addWidget( self.view )
+    self.stack.addWidget( self.code )
+    self.stack.setCurrentIndex(0)
 
     self.toolsWidget = QWidget( self )
     self.vlToolsWidget = QVBoxLayout( self.toolsWidget )
@@ -157,6 +178,8 @@ class MainWindow( QMainWindow ):
     self.gbAtlas = QGroupBox( 'Atlas', self.toolsWidget )
 
     self.atlasImage = QLineEdit( self.gbAtlas )
+    self.atlasImage.setReadOnly( True )
+
     self.openImageButton = QToolButton( self.gbAtlas )
     self.openImageButton.setText('...')
     self.openImageButton.clicked.connect( self.openAtlasImage )
@@ -226,7 +249,7 @@ class MainWindow( QMainWindow ):
     self.tools.setWidget( self.toolsWidget )
     self.tools.setAllowedAreas( Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea )
 
-    self.setCentralWidget( self.view )
+    self.setCentralWidget( self.stack )
     self.addDockWidget( Qt.RightDockWidgetArea, self.tools )
     self.setWindowTitle('Animation Editor')
 
@@ -235,7 +258,8 @@ class MainWindow( QMainWindow ):
     fileName = QFileDialog.getOpenFileName( self, 'Atlas Image', '', 'Image Files (*.png; *.jpg; *.jpeg; *.bmp)' )
 
     if fileName != '':
-      self.atlasImage.setText( fileName )
+      self.atlasImage.setText( QFileInfo( fileName ).fileName() )
+      self.animName = QFileInfo( fileName ).baseName()
       self.view.setImage( fileName )
       self.cols.setValue(1)
       self.rows.setValue(1)
@@ -246,7 +270,38 @@ class MainWindow( QMainWindow ):
 
   @pyqtSlot()
   def generateCode( self ):
-    print('GENERATE')
+    self.codeText.clear()
+
+    self.codeText.appendPlainText('-- init function')
+    self.codeText.appendPlainText('self.' + self.animName + ' = Animation:new( {')
+    self.codeText.appendPlainText('  pos  = Vector( 0, 0 ),')
+    self.codeText.appendPlainText('  img  = "' + self.atlasImage.text() + '",')
+    self.codeText.appendPlainText('  rows = ' + str( self.rows.value() ) + ',')
+    self.codeText.appendPlainText('  cols = ' + str( self.cols.value() ))
+    self.codeText.appendPlainText('} )')
+
+    # for ... from list widget items
+    self.codeText.appendPlainText('self.' + self.animName + ':add( "name", "1-8", "1-2", 0.1 )')
+
+    self.codeText.appendPlainText('')
+    self.codeText.appendPlainText('-- draw function')
+    self.codeText.appendPlainText('self.' + self.animName + ':draw()')
+    self.codeText.appendPlainText('')
+    self.codeText.appendPlainText('-- update function')
+    self.codeText.appendPlainText('self.' + self.animName + ':update( dt )')
+    self.codeText.appendPlainText('')
+    self.codeText.appendPlainText('-- other functions')
+
+    # for ... from list widget items
+    self.codeText.appendPlainText('self.' + self.animName + ':change("' + 'name' + '")')
+
+    self.codeText.appendPlainText('self.' + self.animName + ':flipV()')
+    self.codeText.appendPlainText('self.' + self.animName + ':flipH()')
+    self.codeText.appendPlainText('self.' + self.animName + ':pause()')
+    self.codeText.appendPlainText('self.' + self.animName + ':resume()')
+    self.codeText.appendPlainText('')
+
+    self.stack.setCurrentIndex(1)
 
   @pyqtSlot()
   def addAnim( self ):
@@ -261,6 +316,12 @@ class MainWindow( QMainWindow ):
   def animDone( self, poses ):
     self.view.setCursor( Qt.ArrowCursor )
     self.view.setMode( Mode.NONE )
+    # dialog box with question about name, time, etc
+    # add to list widget
+
+  @pyqtSlot()
+  def goBack( self ):
+    self.stack.setCurrentIndex(0)
 
 if __name__ == '__main__':
   app = QApplication( sys.argv )
