@@ -11,7 +11,7 @@ function love.load()
     rows = 6,
     cols = 8
   } )
-  cr:add( "pointer", "1-8", 2, 0.1 )
+  cr:add( "pointer", "1-8", "1-2", 0.1 )
 
   Cursor.add( "pointer", cr )
 

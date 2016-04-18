@@ -48,9 +48,12 @@ function Animation:update( dt )
   end
 end
 
-function Animation:add( name, cols, row, t )
+-- add( "iddle", "1-5", 1, 0.5 )
+-- add( "iddle", "1-5", "1-2", 0.5 )
+-- add( "iddle", 1, 1, 1 )
+function Animation:add( name, cols, rows, t )
   if self.grid then
-    self.anims[ name ] = Anim.newAnimation( self.grid( cols, row ), t )
+    self.anims[ name ] = Anim.newAnimation( self.grid( cols, rows ), t )
     self:change( name )
   end
 end

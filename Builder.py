@@ -5,7 +5,7 @@ import os
 import shutil
 import queue
 from PyQt4.QtGui import (
-  QApplication, QWidget, QComboBox, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog
+  QApplication, QWidget, QComboBox, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog, QStyleFactory
 )
 from PyQt4.QtCore import QDir, pyqtSignal, pyqtSlot
 from ExportFactory import *
@@ -86,6 +86,7 @@ class Builder( QWidget ):
 
 if __name__ == '__main__':
   app = QApplication( sys.argv )
+  QApplication.setStyle( QStyleFactory.create('plastique') )
 
   b = Builder()
   b.show()
