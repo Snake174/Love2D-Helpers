@@ -2,17 +2,26 @@
 
 import sys
 from enum import Enum
-from PyQt4.QtGui import (
-  QApplication, QWidget, QListWidget, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog,
+from PyQt4.QtGui import *
+'''
+(
+  QApplication, QWidget, QListView, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog,
   QGraphicsView, QGraphicsScene, QPainter, QGraphicsSceneMouseEvent, QBrush, QColor, QPixmap, QPen, QMainWindow,
   QDockWidget, QGroupBox, QVBoxLayout, QHBoxLayout, QSpinBox, QAbstractSpinBox, QStyleFactory, QStyle, QDialog,
-  QStackedWidget, QPlainTextEdit, QFont
+  QStackedWidget, QPlainTextEdit, QFont, QFontMetrics, QStandardItem, QStandardItemModel, QAbstractItemView,
+  QDoubleSpinBox
 )
-from PyQt4.QtCore import Qt, QDir, QFileInfo, QRectF, QPointF, QLineF, QSize, pyqtSignal, pyqtSlot
+'''
+from PyQt4.QtCore import * # Qt, QDir, QFileInfo, QRectF, QPointF, QLineF, QSize, pyqtSignal, pyqtSlot
 
 class Mode( Enum ):
   NONE = 0
   ADD_ANIM = 1
+
+class Roles( Enum ):
+  FrameTime = Qt.UserRole,
+  Rows = Qt.UserRole + 1,
+  Cols = Qt.UserRole + 2
 
 class Scene( QGraphicsScene ):
   sReset = pyqtSignal()
@@ -143,11 +152,52 @@ class AnimationEditor( QGraphicsView ):
   def setMode( self, mode ):
     self.scene.setMode( mode )
 
+class AnimParamsDialog( QDialog ):
+  def __init__( self, parent = None ):
+    QDialog.__init__( self, parent )
+
+    self.time = QDoubleSpinBox( self )
+    self.time.setSingleStep( 0.1 )
+    self.time.setValue( 0.1 )
+    self.time.setMinimum( 0.01 )
+
+    self.name = QLineEdit( self )
+
+    self.ok = QPushButton( self.style().standardIcon( QStyle.SP_DialogApplyButton ), 'OK', self )
+    self.ok.clicked.connect( self.accept )
+
+    self.cancel = QPushButton( self.style().standardIcon( QStyle.SP_DialogCancelButton ), 'Cancel', self )
+    self.cancel.clicked.connect( self.reject )
+
+    self.hl = QHBoxLayout()
+    self.hl.addWidget( self.cancel )
+    self.hl.addWidget( self.ok )
+
+    self.gl = QGridLayout( self )
+    self.gl.addWidget( QLabel( 'Name', self ), 0, 0 )
+    self.gl.addWidget( self.name, 0, 1 )
+    self.gl.addWidget( QLabel( 'Time', self ), 1, 0 )
+    self.gl.addWidget( self.time, 1, 1 )
+    self.gl.addLayout( self.hl, 2, 0, 1, 2 )
+
+    self.name.setFocus()
+    self.setWindowTitle('Animation Settings')
+
+  def getTime( self ):
+    return self.time.value()
+
+  def getName( self ):
+    return self.name.text()
+
 class MainWindow( QMainWindow ):
   def __init__( self, parent = None ):
     QMainWindow.__init__( self, parent )
 
+    self.animParams = AnimParamsDialog( self )
+
     self.animName = ''
+    self.itemSize = QSize()
+    self.itemSize.setHeight( QFontMetrics( QApplication.font() ).height() + 4 )
 
     self.stack = QStackedWidget( self )
 
@@ -185,14 +235,14 @@ class MainWindow( QMainWindow ):
     self.openImageButton.clicked.connect( self.openAtlasImage )
 
     self.cols = QSpinBox( self.gbAtlas )
-    self.cols.setButtonSymbols( QAbstractSpinBox.NoButtons )
+    #self.cols.setButtonSymbols( QAbstractSpinBox.NoButtons )
     self.cols.setSingleStep(1)
     self.cols.setValue(1)
     self.cols.setMinimum(1)
     self.cols.valueChanged.connect( self.setColsRows )
 
     self.rows = QSpinBox( self.gbAtlas )
-    self.rows.setButtonSymbols( QAbstractSpinBox.NoButtons )
+    #self.rows.setButtonSymbols( QAbstractSpinBox.NoButtons )
     self.rows.setSingleStep(1)
     self.rows.setValue(1)
     self.rows.setMinimum(1)
@@ -211,7 +261,11 @@ class MainWindow( QMainWindow ):
     # Animations
     self.gbAnims = QGroupBox( 'Animations', self.toolsWidget )
 
-    self.animList = QListWidget( self.gbAnims )
+    self.animList = QListView( self.gbAnims )
+    self.animList.setEditTriggers( QAbstractItemView.NoEditTriggers )
+    self.animList.setSelectionMode( QAbstractItemView.SingleSelection )
+
+    self.animListModel = QStandardItemModel( self.animList )
 
     self.addAnimButton = QToolButton( self.gbAnims )
     self.addAnimButton.setIconSize( QSize( 16, 16 ) )
@@ -245,6 +299,8 @@ class MainWindow( QMainWindow ):
     self.vlToolsWidget.addWidget( self.genButton )
     self.vlToolsWidget.setAlignment( Qt.AlignTop )
 
+
+    # Tools window
     self.tools = QDockWidget( 'Tools', self )
     self.tools.setWidget( self.toolsWidget )
     self.tools.setAllowedAreas( Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea )
@@ -263,6 +319,7 @@ class MainWindow( QMainWindow ):
       self.view.setImage( fileName )
       self.cols.setValue(1)
       self.rows.setValue(1)
+      self.animListModel.removeRows( 0, self.animListModel.rowCount() )
 
   @pyqtSlot(int)
   def setColsRows( self, v ):
@@ -280,8 +337,23 @@ class MainWindow( QMainWindow ):
     self.codeText.appendPlainText('  cols = ' + str( self.cols.value() ))
     self.codeText.appendPlainText('} )')
 
-    # for ... from list widget items
-    self.codeText.appendPlainText('self.' + self.animName + ':add( "name", "1-8", "1-2", 0.1 )')
+    for i in range( 0, self.animListModel.rowCount() ):
+      name = self.animListModel.data( self.animListModel.index( i, 0 ), Qt.DisplayRole )
+      rows = self.animListModel.data( self.animListModel.index( i, 0 ), Qt.UserRole + 1 )
+      cols = self.animListModel.data( self.animListModel.index( i, 0 ), Qt.UserRole + 2 )
+      frameTime = self.animListModel.data( self.animListModel.index( i, 0 ), Qt.UserRole )
+      self.codeText.appendPlainText(
+        'self.'
+        + self.animName
+        + ':add( "'
+        + name
+        + '", '
+        + str( cols )
+        + ', '
+        + str( rows )
+        + ', '
+        + str( round( frameTime, 2 ) ) + ' )'
+      )
 
     self.codeText.appendPlainText('')
     self.codeText.appendPlainText('-- draw function')
@@ -292,8 +364,9 @@ class MainWindow( QMainWindow ):
     self.codeText.appendPlainText('')
     self.codeText.appendPlainText('-- other functions')
 
-    # for ... from list widget items
-    self.codeText.appendPlainText('self.' + self.animName + ':change("' + 'name' + '")')
+    for i in range( 0, self.animListModel.rowCount() ):
+      name = self.animListModel.data( self.animListModel.index( i, 0 ), Qt.DisplayRole )
+      self.codeText.appendPlainText('self.' + self.animName + ':change("' + name + '")')
 
     self.codeText.appendPlainText('self.' + self.animName + ':flipV()')
     self.codeText.appendPlainText('self.' + self.animName + ':flipH()')
@@ -310,14 +383,44 @@ class MainWindow( QMainWindow ):
 
   @pyqtSlot()
   def delAnim( self ):
-    pass
+    indexes = self.animList.selectedIndexes()
+
+    if indexes == []:
+      return
+
+    reply = QMessageBox.question( self, 'Animation Editor', 'Delete animation?', QMessageBox.Yes | QMessageBox.No )
+
+    if reply == QMessageBox.Yes:
+      self.animListModel.removeRows( indexes[0].row(), 1 )
 
   @pyqtSlot(list)
   def animDone( self, poses ):
     self.view.setCursor( Qt.ArrowCursor )
     self.view.setMode( Mode.NONE )
-    # dialog box with question about name, time, etc
-    # add to list widget
+
+    if self.animParams.exec() == QDialog.Accepted:
+      cols = 1
+      rows = 1
+
+      if poses[0] == poses[2]:
+        cols = poses[0]
+      else:
+        cols = '"' + str( poses[0] ) + '-' + str( poses[2] ) + '"'
+
+      if poses[1] == poses[3]:
+        rows = poses[1]
+      else:
+        rows = '"' + str( poses[1] ) + '-' + str( poses[3] ) + '"'
+
+      item = QStandardItem()
+      item.setData( self.animParams.getName(), Qt.DisplayRole )
+      item.setData( self.style().standardIcon( QStyle.SP_MediaPlay ), Qt.DecorationRole )
+      item.setData( self.itemSize, Qt.SizeHintRole )
+      item.setData( self.animParams.getTime(), Qt.UserRole )
+      item.setData( rows, Qt.UserRole + 1 )
+      item.setData( cols, Qt.UserRole + 2 )
+      self.animListModel.invisibleRootItem().appendRow( item )
+      self.animList.setModel( self.animListModel )
 
   @pyqtSlot()
   def goBack( self ):
