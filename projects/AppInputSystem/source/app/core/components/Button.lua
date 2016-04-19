@@ -113,18 +113,67 @@ function Button:update( dt )
   end
 end
 
+-- Установить реагирование на прозрачность (true / false)
 function Button:setAlpha(a)
   self.isAlpha = a
 end
 
+--[[
+Коллбэк при клике на кнопку
+
+f - функция, которую нужно выполнить
+
+Пример:
+local btn = Button:new( { ... } )
+btn:click( function() print("Clicked") end )
+или
+local btn = Button:new( {
+  ...,
+  onClick = function()
+    print("Clicked")
+  end
+} )
+]]
 function Button:click(f)
   self.callbacks["click"] = f
 end
 
+--[[
+Коллбэк при помещении курсора мыши на кнопку
+
+f - функция, которую нужно выполнить
+
+Пример:
+local btn = Button:new( { ... } )
+btn:mouseIn( function() print("Mouse In") end )
+или
+local btn = Button:new( {
+  ...,
+  onMouseIn = function()
+    print("Mouse In")
+  end
+} )
+]]
 function Button:mouseIn(f)
   self.callbacks["mousein"] = f
 end
 
+--[[
+Коллбэк когда курсор мыши уходит с кнопки
+
+f - функция, которую нужно выполнить
+
+Пример:
+local btn = Button:new( { ... } )
+btn:mouseOut( function() print("Mouse Out") end )
+или
+local btn = Button:new( {
+  ...,
+  onMouseOut = function()
+    print("Mouse Out")
+  end
+} )
+]]
 function Button:mouseOut(f)
   self.callbacks["mouseout"] = f
 end

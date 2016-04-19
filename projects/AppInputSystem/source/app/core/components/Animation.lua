@@ -48,9 +48,19 @@ function Animation:update( dt )
   end
 end
 
--- add( "iddle", "1-5", 1, 0.5 )
--- add( "iddle", "1-5", "1-2", 0.5 )
--- add( "iddle", 1, 1, 1 )
+--[[
+Добавить анимацию
+
+name - название анимации
+cols - столбец или диапазон столбцов в атласе
+rows - номер строки или диапазон строк в атласе
+t - время между сменой кадров
+
+Пример:
+add( "iddle", "1-5", 1, 0.5 )
+add( "iddle", "1-5", "1-2", 0.5 )
+add( "iddle", 1, 1, 1 )
+]]
 function Animation:add( name, cols, rows, t )
   if self.grid then
     self.anims[ name ] = Anim.newAnimation( self.grid( cols, rows ), t )
@@ -58,30 +68,39 @@ function Animation:add( name, cols, rows, t )
   end
 end
 
+--[[
+Смена анимации
+
+name - название анимации, на которую нужно сменить текущую анимацию
+]]
 function Animation:change( name )
   if self.anims[ name ] then
     self.anim = self.anims[ name ]
   end
 end
 
+-- Отразить по вертикали
 function Animation:flipV()
   if self.anim then
     self.anim:flipV()
   end
 end
 
+-- Отразить по горизонтали
 function Animation:flipH()
   if self.anim then
     self.anim:flipH()
   end
 end
 
+-- Приостановить проигрывание анимации
 function Animation:pause()
   if self.anim then
     self.anim:pause()
   end
 end
 
+-- Возобновить проигрывание анимации
 function Animation:resume()
   if self.anim then
     self.anim:resume()

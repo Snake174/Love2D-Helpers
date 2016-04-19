@@ -41,12 +41,30 @@ function Scene:addLayer( layName )
   self:setLayerInfo( layName, true, true )
 end
 
+--[[
+Информация о слое
+
+layName - название слоя
+isDraw - нужно ли отображать все объекты на слое
+isUpdate - нужно ли обновлять все объекты на слое
+]]
 function Scene:setLayerInfo( layName, isDraw, isUpdate )
   if self.layers[ layName ] then
     self.layersInfo[ layName ] = { isDraw, isUpdate }
   end
 end
 
+--[[
+Добавление объекта на слой
+
+go - объект
+layName - название слоя (по умолчанию "main")
+
+Пример:
+local btn = Button:new( { ... } )
+self:add( btn ) -- будет добавлен объект btn на слой с названием "main"
+self:add( btn, "gui" ) -- будет добавлен объект btn на слой с названием "gui"
+]]
 function Scene:add( go, layName )
   local layerName = layName or "main"
 
@@ -57,6 +75,9 @@ function Scene:add( go, layName )
   self.layers[ layerName ].gameObjects[ #self.layers[ layerName ].gameObjects + 1 ] = go
 end
 
+--[[
+Удаление объекта со слоя
+]]
 function Scene:remove( go, layName )
   if not self.layers[ layName ] then
     return
