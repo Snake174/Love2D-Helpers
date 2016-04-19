@@ -13,8 +13,8 @@ end
 
 function Scene:draw()
   for layName, _ in pairs( self.layers ) do
-    for i = 1, #self.layers[ layName ].gameObjects do
-      if self.layersInfo[ layName ][0] then
+    if self.layersInfo[ layName ][0] then
+      for i = 1, #self.layers[ layName ].gameObjects do
         self.layers[ layName ].gameObjects[i]:draw()
       end
     end
