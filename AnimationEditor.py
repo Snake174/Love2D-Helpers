@@ -9,14 +9,9 @@ class Mode( Enum ):
   NONE = 0
   ADD_ANIM = 1
 
-class Roles( Enum ):
-  FrameTime = Qt.UserRole,
-  Rows = Qt.UserRole + 1,
-  Cols = Qt.UserRole + 2
-
 class Scene( QGraphicsScene ):
   sReset = pyqtSignal()
-  animDone = pyqtSignal([list])
+  animDone = pyqtSignal(list)
 
   def __init__( self, parent = None ):
     QGraphicsScene.__init__( self, parent )

@@ -42,6 +42,18 @@ function Button:new(o)
     t.imgH = love.graphics.newImage( o.imgH )
   end
 
+  if o.onClick then
+    t.callbacks["click"] = o.onClick
+  end
+
+  if o.onMouseIn then
+    t.callbacks["mousein"] = o.onMouseIn
+  end
+
+  if o.onMouseOut then
+    t.callbacks["mouseout"] = o.onMouseOut
+  end
+
   return setmetatable( t, { __index = self } )
 end
 
