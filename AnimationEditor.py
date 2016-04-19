@@ -103,10 +103,10 @@ class Scene( QGraphicsScene ):
       self.fw = int( self.img.width() / self.cols )
       self.fh = int( self.img.height() / self.rows )
 
-      for x in range( 0, int( self.img.width() ), self.fw ):
+      for x in range( 0, int( self.img.width() + 1 ), self.fw ):
         self.grid.append( QLineF( float(x), 0.0, x, float( self.img.height() ) ) )
 
-      for y in range( 0, int( self.img.height() ), self.fh ):
+      for y in range( 0, int( self.img.height() + 1 ), self.fh ):
         self.grid.append( QLineF( 0.0, float(y), float( self.img.width() ), float(y) ) )
 
       self.update()
