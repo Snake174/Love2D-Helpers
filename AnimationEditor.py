@@ -3,16 +3,7 @@
 import sys
 from enum import Enum
 from PyQt4.QtGui import *
-'''
-(
-  QApplication, QWidget, QListView, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog,
-  QGraphicsView, QGraphicsScene, QPainter, QGraphicsSceneMouseEvent, QBrush, QColor, QPixmap, QPen, QMainWindow,
-  QDockWidget, QGroupBox, QVBoxLayout, QHBoxLayout, QSpinBox, QAbstractSpinBox, QStyleFactory, QStyle, QDialog,
-  QStackedWidget, QPlainTextEdit, QFont, QFontMetrics, QStandardItem, QStandardItemModel, QAbstractItemView,
-  QDoubleSpinBox
-)
-'''
-from PyQt4.QtCore import * # Qt, QDir, QFileInfo, QRectF, QPointF, QLineF, QSize, pyqtSignal, pyqtSlot
+from PyQt4.QtCore import *
 
 class Mode( Enum ):
   NONE = 0
@@ -208,6 +199,7 @@ class MainWindow( QMainWindow ):
 
     self.codeText = QPlainTextEdit( self.code )
     self.codeText.setFont( QFont( 'Lucida Console', 12 ) )
+    self.codeText.setWordWrapMode( QTextOption.NoWrap )
 
     self.backToImage = QPushButton( 'Back', self.code )
     self.backToImage.clicked.connect( self.goBack )
