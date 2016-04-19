@@ -41,5 +41,15 @@
 Анимации добавляются путём выделения необходимых кадров. Затем указывается название анимации и время между кадрами.
 В результате скрипт генерирует код, который можно будет вставить в свой проект.
 
+Скриншоты
+
+![AnimationEditor.py](/img/AnimationEditor_1.png)
+
+![AnimationEditor.py](/img/AnimationEditor_2.png)
+
+![AnimationEditor.py](/img/AnimationEditor_3.png)
+
+![AnimationEditor.py](/img/AnimationEditor_4.png)
+
 
 Скрипты написаны на **Python 3** и **PyQt4**. Установщик можно взять здесь [Anaconda](https://store.continuum.io/cshop/anaconda/)
