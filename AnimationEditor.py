@@ -198,7 +198,7 @@ class MainWindow( QMainWindow ):
     self.code = QWidget( self.stack )
 
     self.codeText = QPlainTextEdit( self.code )
-    self.codeText.setFont( QFont( 'Lucida Console', 12 ) )
+    self.codeText.setFont( QFont( 'Lucida Console', 11 ) )
     self.codeText.setWordWrapMode( QTextOption.NoWrap )
 
     self.backToImage = QPushButton( 'Back', self.code )
