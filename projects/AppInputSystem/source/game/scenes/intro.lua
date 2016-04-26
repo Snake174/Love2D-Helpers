@@ -5,7 +5,7 @@ local intro = Class {
 
   init = function( self, o )
     Scene.init( self, o )
- 
+
     self.btnStart = Button:new( {
       pos = Vector( 200, 200 ),
       img = self.RC.img.start_n,

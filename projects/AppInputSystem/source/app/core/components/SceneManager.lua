@@ -49,10 +49,7 @@ local baseSndMetatable = {
   __index = function( t, k )
     t[k] = love.audio.newSource( getFilePath( k, t.__folder, { ".ogg", ".wav", ".mp3" } ), "stream" )
     return t[k]
-  end--[[,
-  __call = function( self, k )
-    return self[k]
-  end]]
+  end
 }
 
 local function setImgMeta(t)
