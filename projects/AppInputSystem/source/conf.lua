@@ -3,7 +3,7 @@ function love.conf(c)
   c.title                 = "App"
   c.window.width          = 800
   c.window.height         = 600
-  c.window.resizable      = false
+  c.window.resizable      = true
   c.window.fullscreen     = false
   c.window.fullscreentype = "exclusive"
   c.window.vsync          = true

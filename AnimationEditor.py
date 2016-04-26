@@ -342,6 +342,7 @@ class MainWindow( QMainWindow ):
         + str( round( frameTime, 2 ) ) + ' )'
       )
 
+    self.codeText.appendPlainText('self:add( self.' + self.animName + ' )')
     self.codeText.appendPlainText('')
     self.codeText.appendPlainText('-- draw function')
     self.codeText.appendPlainText('self.' + self.animName + ':draw()')

@@ -2,6 +2,8 @@ App = {
   OS      = love.system.getOS(),
   WIDTH   = love.graphics.getWidth(),
   HEIGHT  = love.graphics.getHeight(),
+  SCALE   = 1,
+  SCALE_T = 0,
   RUNNING = true
 }
 
@@ -40,6 +42,14 @@ function App.run()
         _btns[c] = true
       elseif name == "wheelmoved" then
         Input._wheel = b
+      elseif name == "resize" then
+        if App.HEIGHT > App.WIDTH then
+          App.SCALE = b / App.HEIGHT
+          App.SCALE_T = 1
+        else
+          App.SCALE = a / App.WIDTH
+          App.SCALE_T = 0
+        end
       end
 
       local iKeys = Input._keys

@@ -5,6 +5,11 @@ function love.load()
   SceneManager.change( SceneManager.scenes.intro )
 end
 
+--[[function love.resize( w, h )
+  width, height = w, h
+  scale = height / 600
+end]]
+
 function love.run()
 	if love.math then
     love.math.setRandomSeed( os.time() )
