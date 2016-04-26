@@ -52,6 +52,11 @@
 ![AnimationEditor.py](/img/AnimationEditor_4.png)
 
 
+* *TexturePackCreator.py*
+
+Предназначен для создания текстурного атласа из отдельных изображений.
+
+
 Скрипты написаны на **Python 3** и **PyQt4**. Установщик можно взять здесь [Anaconda](https://store.continuum.io/cshop/anaconda/) ([список библиотек](https://docs.continuum.io/anaconda/pkg-docs))
 
 Также для редактирования проектов на Lua можно использовать редакторы [ZeroBrane Studio](https://studio.zerobrane.com/) и [Atom](https://atom.io/) с плагином [love-ide](https://atom.io/packages/love-ide)

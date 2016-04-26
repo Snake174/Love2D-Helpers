@@ -1,7 +1,8 @@
 Cursor = {
   isSystem = true,
   cursors = {},
-  cursor = nil
+  cursor = nil,
+  hotXY = Vector( 0, 0 )
 }
 
 function Cursor.useSystem(v)
@@ -35,7 +36,7 @@ end
 function Cursor.update( dt )
   if not Cursor.isSystem and Cursor.cursor then
     Cursor.cursor:update( dt )
-    Cursor.cursor.pos = Input.mousePos() - Vector( 8, 8 )
+    Cursor.cursor.pos = Input.mousePos() - Cursor.hotXY
   end
 end
 
