@@ -45,6 +45,16 @@ local baseImgMetatable = {
   end
 }
 
+local baseSndMetatable = {
+  __index = function( t, k )
+    t[k] = love.audio.newSource( getFilePath( k, t.__folder, { ".ogg", ".wav", ".mp3" } ), "stream" )
+    return t[k]
+  end,
+  __call = function( self, k )
+    return self[k]
+  end
+}
+
 local function setImgMeta(t)
   return setmetatable( t, baseImgMetatable )
 end
@@ -59,11 +69,26 @@ local function recurseSetImgMeta( base )
   return setImgMeta( base )
 end
 
+local function setSndMeta(t)
+  return setmetatable( t, baseSndMetatable )
+end
+
+local function recurseSetSndMeta( base )
+  for _, v in pairs( base ) do
+    if type(v) == "table" then
+      v = recurseSetSndMeta(v)
+    end
+  end
+
+  return setSndMeta( base )
+end
+
 local baseMetatable = {
   __index = function( self, k )
     self[k] = require( getRequireFile( k, "game/scenes/", { ".lua" } ) )
     self[k].RC = {
-      img = recurseSetImgMeta( getFolderTree( "game/scenes/" .. tostring(k) .. "/images/" ) )
+      img = recurseSetImgMeta( getFolderTree( "game/scenes/" .. tostring(k) .. "/images/" ) ),
+      snd = recurseSetSndMeta( getFolderTree( "game/scenes/" .. tostring(k) .. "/sound/" ) )
     }
     return self[k]
   end,
