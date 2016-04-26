@@ -10,9 +10,7 @@ local intro = Class {
       pos = Vector( 200, 200 ),
       img = self.RC.img.start_n,
       imgH = self.RC.img.start_nn,
-      alpha = false,
-      onClick = function()
-      end
+      alpha = true
     } )
 
     self.btnHelp = Button:new( {
