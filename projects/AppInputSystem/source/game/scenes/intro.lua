@@ -13,6 +13,10 @@ local intro = Class {
       alpha = true,
       onMouseIn = function()
         self.RC.snd.Phone_ring:play()
+      end,
+      onClick = function()
+        self.RC.snd.Phone_ring:stop()
+        SceneManager.change( SceneManager.scenes.scene1 )
       end
     } )
 
