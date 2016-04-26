@@ -137,10 +137,20 @@ function SceneManager.change( to, duration, effect )
 
   SceneManager.inProcess = true]]
 
+  if SceneManager.curScene and SceneManager.curScene == to then
+    return
+  end
+
+  if SceneManager.curScene then
+    SceneManager.curScene:leave()
+  end
+
   if to.init then
     to:init()
     to.init = nil
   end
+
+  to:enter()
 
   SceneManager.curScene = to
 end
