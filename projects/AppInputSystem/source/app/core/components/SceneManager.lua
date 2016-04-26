@@ -1,4 +1,4 @@
-local setmetatable, require = setmetatable, require
+local setmetatable, require, pairs = setmetatable, require, pairs
 
 local function getRequireFile( fileName, basePath, validFormats )
   local filePath

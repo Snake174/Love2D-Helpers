@@ -1,3 +1,5 @@
+local pairs = pairs
+
 local Scene = Class {
   init = function( self, o )
     local o = o or {}
