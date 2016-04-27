@@ -18,6 +18,8 @@ class Scene( QGraphicsScene ):
 
     self.mode = Mode.NONE
 
+    self.grid = []
+
     self.curPos = QPointF()
     self.clickPos = QPointF()
     self.mousePressed = False
@@ -32,7 +34,7 @@ class Scene( QGraphicsScene ):
 
   def drawForeground( self, painter, rect ):
     painter.save()
-    painter.setPen( QPen( QBrush( QColor( 255, 0, 0 ) ), 3 ) )
+    painter.setPen( QPen( QBrush( QColor( 255, 0, 0 ) ), 2 ) )
     painter.drawLines( self.grid )
     painter.restore()
 
@@ -226,6 +228,7 @@ class MainWindow( QMainWindow ):
     self.cols.setSingleStep(1)
     self.cols.setValue(1)
     self.cols.setMinimum(1)
+    self.cols.setMaximum(99999)
     self.cols.valueChanged.connect( self.setColsRows )
 
     self.rows = QSpinBox( self.gbAtlas )
@@ -233,6 +236,7 @@ class MainWindow( QMainWindow ):
     self.rows.setSingleStep(1)
     self.rows.setValue(1)
     self.rows.setMinimum(1)
+    self.rows.setMaximum(99999)
     self.rows.valueChanged.connect( self.setColsRows )
 
     self.glAtlas = QGridLayout( self.gbAtlas )
@@ -294,6 +298,7 @@ class MainWindow( QMainWindow ):
 
     self.setCentralWidget( self.stack )
     self.addDockWidget( Qt.RightDockWidgetArea, self.tools )
+    self.setMinimumSize( 640, 480 )
     self.setWindowTitle('Animation Editor')
 
   @pyqtSlot()
