@@ -123,7 +123,7 @@ class AnimationEditor( QGraphicsView ):
     self.scene.animDone.connect( self.animDone )
 
     self.setMouseTracking( True )
-    self.setRenderHint( QPainter.Antialiasing )
+    self.setRenderHints( QPainter.HighQualityAntialiasing | QPainter.SmoothPixmapTransform )
     self.setHorizontalScrollBarPolicy( Qt.ScrollBarAsNeeded );
     self.setVerticalScrollBarPolicy( Qt.ScrollBarAsNeeded );
     self.setAlignment( Qt.AlignCenter );

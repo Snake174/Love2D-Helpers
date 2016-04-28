@@ -49,7 +49,7 @@ class Scene( QGraphicsScene ):
     iAtlas.fill( Qt.transparent )
 
     pAtlas = QPainter( iAtlas )
-    pAtlas.setRenderHint( QPainter.Antialiasing )
+    pAtlas.setRenderHints( QPainter.HighQualityAntialiasing | QPainter.SmoothPixmapTransform )
     self.drawAtlas( pAtlas )
     pAtlas.end()
 
