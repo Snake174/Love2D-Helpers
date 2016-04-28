@@ -1,5 +1,6 @@
 # Love2D-Helpers
 
+**Language: ** [RU](README.md) / [EN](README-en.md)
 
 ## Описание
 
