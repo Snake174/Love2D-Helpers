@@ -35,6 +35,7 @@ class Scene( QGraphicsScene ):
             ox = 0
             oy = 0
 
+            # TODO: косяк с изменением размера фрейма и последнее изображение 2 раза выводится
             if img.width() > img.height():
               h = img.height() * (self.fw / img.width())
               oy = (self.fh - h) / 2
