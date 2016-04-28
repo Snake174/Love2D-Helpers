@@ -60,6 +60,6 @@ Designed to create texture atlas from separate images.
 ![TexturePackCreator.py](/img/TexturePackCreator.png)
 
 
-The scripts are written in **Python 3** and **PyQt4**. You can download here [Anaconda](https://store.continuum.io/cshop/anaconda/) ([список библиотек](https://docs.continuum.io/anaconda/pkg-docs))
+The scripts are written in **Python 3** and **PyQt4**. You can download here [Anaconda](https://store.continuum.io/cshop/anaconda/) ([included packages](https://docs.continuum.io/anaconda/pkg-docs))
 
 Also for editing projects in Lua you can use editors: [ZeroBrane Studio](https://studio.zerobrane.com/) and [Atom](https://atom.io/) with [love-ide](https://atom.io/packages/love-ide) plugin.
