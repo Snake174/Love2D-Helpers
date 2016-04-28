@@ -56,6 +56,8 @@
 
 Предназначен для создания текстурного атласа из отдельных изображений.
 
+![TexturePackCreator.py](/img/TexturePackCreator.png)
+
 
 Скрипты написаны на **Python 3** и **PyQt4**. Установщик можно взять здесь [Anaconda](https://store.continuum.io/cshop/anaconda/) ([список библиотек](https://docs.continuum.io/anaconda/pkg-docs))
 
