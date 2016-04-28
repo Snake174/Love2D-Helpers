@@ -1,6 +1,6 @@
 # Love2D-Helpers
 
-**Language: ** [RU](README.md) / [EN](README-en.md)
+**Language:** [RU](README.md) / [EN](README-en.md)
 
 ## Описание
 
@@ -62,4 +62,4 @@
 
 Скрипты написаны на **Python 3** и **PyQt4**. Установщик можно взять здесь [Anaconda](https://store.continuum.io/cshop/anaconda/) ([список библиотек](https://docs.continuum.io/anaconda/pkg-docs))
 
-Также для редактирования проектов на Lua можно использовать редакторы [ZeroBrane Studio](https://studio.zerobrane.com/) и [Atom](https://atom.io/) с плагином [love-ide](https://atom.io/packages/love-ide)
+Также для редактирования проектов на Lua можно использовать редакторы: [ZeroBrane Studio](https://studio.zerobrane.com/) и [Atom](https://atom.io/) с плагином [love-ide](https://atom.io/packages/love-ide)
