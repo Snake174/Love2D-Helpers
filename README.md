@@ -1,6 +1,6 @@
 # Love2D-Helpers
 
-**язык:** [**RU**](README.md) / [EN](README-en.md)
+**язык:** **RU** / [EN](README-en.md)
 
 ## ќписание
 
