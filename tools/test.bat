@@ -1,4 +1,0 @@
-wget.exe --proxy-user=osintsev --proxy-password=qp3zxc --http-user=osintsev --http-password=qp3zxc http://apache-mirror.rbc.ru/pub/apache/ant/binaries/apache-ant-1.9.5-bin.tar.gz
-wget.exe --proxy-user=osintsev --proxy-password=qp3zxc --http-user=osintsev --http-password=qp3zxc http://dl.google.com/android/ndk/android-ndk-r9c-linux-x86_64.tar.bz2  -O ..\android-ndk.tar.bz2
-wget.exe --proxy-user=osintsev --proxy-password=qp3zxc --http-user=osintsev --http-password=qp3zxc http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
-rem ./android update sdk -u --all -t 1,2,19,29,38,94,95,108,112,113,125,145,149,150,151,152,153,154,156
