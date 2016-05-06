@@ -3,6 +3,7 @@
 from PyQt4.QtCore import QObject
 from WindowsExporter import *
 from MacExporter import *
+from AndroidExporter import *
 
 class ExportFactory( QObject ):
   def __init__( self, parent = None ):
@@ -13,3 +14,5 @@ class ExportFactory( QObject ):
       return WindowsExporter()
     elif name == 'macosx':
       return MacExporter()
+  elif name == 'android':
+      return AndroidExporter()

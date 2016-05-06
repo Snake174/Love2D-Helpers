@@ -63,9 +63,12 @@ class Builder( QWidget ):
     we.setCurrentProjectName( self.projects.currentText() )
     me = self.ef.getExporter('macosx')
     me.setCurrentProjectName( self.projects.currentText() )
+    ae = self.ef.getExporter('android')
+    ae.setCurrentProjectName( self.projects.currentText() )
 
     self.queue.put( we )
     self.queue.put( me )
+    self.queue.put( ae )
     self.queue.put( None )
 
     self.processQueue()

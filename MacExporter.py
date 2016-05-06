@@ -77,7 +77,8 @@ INFO_PLIST = '''
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>
-</plist>'''
+</plist>
+'''
 
 class MacExporter( Exporter ):
   def __init__( self ):
@@ -91,9 +92,8 @@ class MacExporter( Exporter ):
     os.chdir( srcDir )
     shutil.move( 'love.app', 'game.app' )
 
-    f = open( 'game.app' + self.DS + 'Contents' + self.DS + 'Info.plist', 'w' )
-    f.writelines( INFO_PLIST.replace( '###GAME_TITLE###', self.currentProjectName ) )
-    f.close()
+    with open( 'game.app' + self.DS + 'Contents' + self.DS + 'Info.plist', 'w' ) as f:
+      f.writelines( INFO_PLIST.replace( '###GAME_TITLE###', self.currentProjectName ) )
 
     self.makeIcon(
       self.addDS( self.toolsDir ) + 'icon.png',
