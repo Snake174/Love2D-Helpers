@@ -49,14 +49,12 @@ class Exporter( QThread ):
   def removeBlankLines( self, src ):
     clean_lines = []
 
-    f = open( src, 'r' )
-    lines = f.readlines()
-    clean_lines = [l.strip() for l in lines if l.strip()]
-    f.close()
+    with open( src, 'r' ) as f:
+      lines = f.readlines()
+      clean_lines = [l.strip() for l in lines if l.strip()]
 
-    f = open( src, 'w' )
-    f.writelines( '\n'.join( clean_lines ) )
-    f.close()
+    with open( src, 'w' ) as f:
+      f.writelines( '\n'.join( clean_lines ) )
 
   def removeSpaces( self, srcDir, isObfuscated ):
     os.chdir( self.toolsDir )

@@ -14,6 +14,7 @@ class Builder( QWidget ):
   def __init__( self ):
     QWidget.__init__( self )
 
+    self.CWD = os.getcwd()
     self.queue = queue.Queue()
     self.ef = ExportFactory()
     self.projects = QComboBox( self )
@@ -58,6 +59,11 @@ class Builder( QWidget ):
   @pyqtSlot()
   def build( self ):
     self.buildButton.setEnabled( False )
+
+    if not os.path.exists( os.getcwd() + QDir.separator() + 'SDK' + QDir.separator() + 'jdk-7u55' ):
+      os.chdir( self.CWD + QDir.separator() + 'tools' )
+      os.system('SDK.bat')
+      os.chdir( self.CWD )
 
     we = self.ef.getExporter('windows')
     we.setCurrentProjectName( self.projects.currentText() )

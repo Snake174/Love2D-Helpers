@@ -1,6 +1,4 @@
 @echo off
-set http_proxy=http://osintsev:qp3zxc@192.168.0.225:3128
-set https_proxy=http://osintsev:qp3zxc@192.168.0.225:3128
 echo "Downloading JDK 7u55 ..."
 wget.exe --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u55-b13/jdk-7u55-windows-x64.exe" -O ..\SDK\jdk-7u55-windows-x64.exe
 echo "Downloading Apache ANT ..."

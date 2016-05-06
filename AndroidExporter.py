@@ -15,11 +15,14 @@ class AndroidExporter( Exporter ):
 
     versions = [ '2.3.3', '3.1', '4.0.3' ]
 
-    try:
-      shutil.rmtree( projectBuildDir )
-    except:
-      pass
+    for v in versions:
+      projectBuildDirV = projectBuildDir + v
 
-    os.makedirs( projectBuildDir )
+      try:
+        shutil.rmtree( projectBuildDirV )
+      except:
+        pass
+
+      os.makedirs( projectBuildDirV )
 
     print('Android Exporter - OK')

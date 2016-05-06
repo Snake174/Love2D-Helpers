@@ -17,7 +17,7 @@ class WindowsExporter( Exporter ):
     zf.extractall( srcDir )
     zf.close()
 
-    #self.makeIcon( self.addDS( self.toolsDir ) + 'icon.png', self.addDS( srcDir ) + 'icon.ico', 144 )
+    self.makeIcon( self.addDS( self.toolsDir ) + 'icon.png', self.addDS( srcDir ) + 'icon.ico', 64 )
 
     os.chdir( srcDir )
     os.system('copy /b love.exe + game.love game.exe')
@@ -26,7 +26,7 @@ class WindowsExporter( Exporter ):
 
     os.chdir( self.toolsDir )
     #os.system('RCEDIT64.exe /I ' + self.addDS( srcDir ) + 'game.exe ' + self.addDS( srcDir ) + 'icon.ico')
-    #os.remove( self.addDS( srcDir ) + 'icon.ico' )
+    os.remove( self.addDS( srcDir ) + 'icon.ico' )
     os.system('upx.exe -qf --best --ultra-brute ' + self.addDS( srcDir ) + 'game.exe')
 
   def run( self ):
