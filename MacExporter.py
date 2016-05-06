@@ -95,13 +95,14 @@ class MacExporter( Exporter ):
     with open( 'game.app' + self.DS + 'Contents' + self.DS + 'Info.plist', 'w' ) as f:
       f.writelines( INFO_PLIST.replace( '###GAME_TITLE###', self.currentProjectName ) )
 
-    self.makeIcon(
-      self.addDS( self.toolsDir ) + 'icon.png',
-      'game.app' + self.DS + 'Contents' + self.DS + 'Resources' + self.DS + 'game.icns',
-      144
-    )
-
     shutil.move( 'game.love', 'game.app'  + self.DS + 'Contents' + self.DS + 'Resources' )
+
+    os.system(
+      self.addDS( self.toolsDir ) + 'png2icns' + self.DS + 'png2icns.exe '
+      + self.addDS( self.toolsDir ) + 'icon.png '
+      + 'game.app' + self.DS + 'Contents' + self.DS + 'Resources' + self.DS + 'game.icns '
+      + '144'
+    )
 
   def run( self ):
     projectSourceDir = self.projectsDir + self.currentProjectName + self.DS + 'source' + self.DS

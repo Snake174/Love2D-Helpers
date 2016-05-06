@@ -108,7 +108,7 @@ class Exporter( QThread ):
     iIcon.fill( Qt.transparent )
 
     pIcon = QPainter( iIcon )
-    pIcon.setRenderHint( QPainter.Antialiasing )
+    pIcon.setRenderHints( QPainter.HighQualityAntialiasing | QPainter.SmoothPixmapTransform )
     pIcon.drawImage( QRect( 0, 0, size, size ), tmpImage, QRect( 0, 0, tmpImage.width(), tmpImage.height() ) )
     pIcon.end()
 

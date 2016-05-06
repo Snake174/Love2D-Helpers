@@ -14,5 +14,5 @@ class ExportFactory( QObject ):
       return WindowsExporter()
     elif name == 'macosx':
       return MacExporter()
-  elif name == 'android':
+    elif name == 'android':
       return AndroidExporter()
