@@ -28,6 +28,13 @@ class Exporter( QThread ):
   def __del__( self ):
     self.wait()
 
+  def makePath( self, items ):
+    for i in items:
+      if i.endswith( QDir.separator() ):
+        i = i[:-1]
+
+    return str( QDir.separator() ).join( items )
+
   def normalizeName( self, value, deletechars ):
     for c in deletechars:
       value = value.replace( c, '' )

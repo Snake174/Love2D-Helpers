@@ -5,7 +5,7 @@ import os
 import shutil
 import queue
 from PyQt4.QtGui import (
-  QApplication, QWidget, QComboBox, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog, QStyleFactory
+  QApplication, QWidget, QComboBox, QPushButton, QLineEdit, QLabel, QGridLayout, QToolButton, QFileDialog, QStyleFactory, QMessageBox
 )
 from PyQt4.QtCore import QDir, pyqtSignal, pyqtSlot
 from ExportFactory import *
@@ -60,7 +60,8 @@ class Builder( QWidget ):
   def build( self ):
     self.buildButton.setEnabled( False )
 
-    if not os.path.exists( os.getcwd() + QDir.separator() + 'SDK' + QDir.separator() + 'jdk-7u55' ):
+    if not os.path.exists( os.getcwd() + QDir.separator() + 'SDK' + QDir.separator() + 'jdk-8u73' ):
+      QMessageBox.information( self, 'Builder', 'SDK not found and will be downloaded' )
       os.chdir( self.CWD + QDir.separator() + 'tools' )
       os.system('SDK.bat')
       os.chdir( self.CWD )
@@ -89,6 +90,7 @@ class Builder( QWidget ):
 
     if e is None:
       self.buildButton.setEnabled( True )
+      QMessageBox.information( self, 'Builder', 'Build Done' )
     else:
       e.start()
       e.finished.connect( self.threadFinished )
